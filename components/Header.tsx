@@ -89,9 +89,6 @@ const Header: React.FC = () => {
                                 <MenuList>
                                     <MenuItem onClick={() => router.push('/account')}>Account</MenuItem>
                                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
-                                    <MenuItem>Mark as Draft</MenuItem>
-                                    <MenuItem>Delete</MenuItem>
-                                    <MenuItem>Attend a Workshop</MenuItem>
                                 </MenuList>
                             </Menu>
                         )}
