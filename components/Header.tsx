@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { AuthUser } from '@supabase/supabase-js';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/supabase';
 import {
     Button, Box, IconButton, Flex, Divider, useColorMode,
     Menu,
@@ -19,7 +20,7 @@ import { MoonIcon, StarIcon } from '@chakra-ui/icons';
 import { BsFillGridFill } from "react-icons/bs";
 import { useRouter } from 'next/navigation';
 import { Link } from '@chakra-ui/next-js';
-import { Database } from '@/types/supabase';
+import Image from 'next/image'
 
 const Header: React.FC = () => {
     const { colorMode, toggleColorMode } = useColorMode();
@@ -74,7 +75,7 @@ const Header: React.FC = () => {
             <Flex as="header" width="full" py={4} px={8} align="center" justify="space-between">
                 <Flex align="center">
                     <Link href="/">
-                        Melodari
+                        <Image src={colorMode === 'light' ? "/black.png" : "/white.png"} alt="Melodari Logo" width={50} height={50} /> {/* Adjust the src and size as needed */}
                     </Link>
                 </Flex>
 
