@@ -11,7 +11,7 @@ export default function AuthForm() {
 
     const signInWithProvider = useCallback(async (provider: 'github' | 'discord') => {
         const baseUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://your-production-url.com' // Replace with your production URL
+        ? 'https://melodari.vercel.app' // Replace with your production URL
         : 'http://localhost:3000';
 
         await supabase.auth.signInWithOAuth({

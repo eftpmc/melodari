@@ -15,13 +15,19 @@ export default function AccountForm({ user }: { user: User | null }) {
   const toast = useToast();
 
   const getProfile = useCallback(async () => {
+
+    if (!user){
+      return (
+        <div>Loading</div>
+      )
+    }
     try {
       setLoading(true);
 
       const { data, error, status } = await supabase
         .from('profiles')
         .select(`full_name, username, avatar_url`)
-        .eq('id', user?.id)
+        .eq('id', user.id)
         .single();
 
       if (error && status !== 406) {
