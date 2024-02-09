@@ -1,6 +1,6 @@
 import { Flex, Box, Text, Button } from '@chakra-ui/react';
 import Link from 'next/link';
-import AuthForm from '@/components/AuthForm'; // Adjust the import path as necessary
+import Image from 'next/image'
 
 const Home: React.FC = () => {
   return (
@@ -11,10 +11,11 @@ const Home: React.FC = () => {
       overflow="hidden" // Prevents content from making the page scrollable
     >
       <Box textAlign="center" p={8}>
-        <Text fontSize="2xl" mb="4">Welcome to Our App!</Text>
-        <Text mb="8">Your journey starts here.</Text>
+        <h2 className='m-4 font-bold text-5xl'>All things music.</h2>
+        <Text className='mb-4 font-bold'>Discover, learn, and listen to music at Melodari.</Text>
+        <Image className="mb-4" src="/music.svg" alt="Music Photo" width={500} height={500} />
         <Link href="/login" passHref>
-          <Button colorScheme="blue">Login / Sign Up</Button>
+          <Button colorScheme="purple">Get Started</Button>
         </Link>
       </Box>
     </Flex>

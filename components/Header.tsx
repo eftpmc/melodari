@@ -72,10 +72,10 @@ const Header: React.FC = () => {
 
     return (
         <>
-            <Flex as="header" width="full" py={4} px={8} align="center" justify="space-between">
+            <Flex as="header" width="full" py={2} px={8} align="center" justify="space-between">
                 <Flex align="center">
                     <Link href="/">
-                        <Image src={colorMode === 'light' ? "/black.png" : "/white.png"} alt="Melodari Logo" width={50} height={50} /> {/* Adjust the src and size as needed */}
+                        <Image src={colorMode === 'light' ? "/black.png" : "/white.png"} alt="Melodari Logo" width={50} height={50} />
                     </Link>
                 </Flex>
 
