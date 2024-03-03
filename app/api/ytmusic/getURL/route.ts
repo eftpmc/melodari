@@ -4,7 +4,7 @@ var { google } = require('googleapis');
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const REDIRECT_URI = `${process.env.URL!}/auth/callback`
+const REDIRECT_URI = `${process.env.URL!}/auth/googlecallback`
 const SCOPE = 'https://www.googleapis.com/auth/youtube.readonly';
 
 export async function GET() {
