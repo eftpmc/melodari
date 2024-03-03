@@ -5,10 +5,14 @@ import AuthForm from '@/components/AuthForm'; // Adjust the import path as neces
 
 const Login: React.FC = () => {
   return (
-    <Flex height="flexGrow" alignItems="center" justifyContent="center">
-      <Box width="full" maxW="md" p="8">
+    <Flex
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        overflow="hidden"
+        pt={8}
+      >
         <AuthForm />
-      </Box>
     </Flex>
   );
 };

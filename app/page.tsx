@@ -1,24 +1,42 @@
-import { Flex, Box, Text, Button } from '@chakra-ui/react';
-import Link from 'next/link';
-import Image from 'next/image'
+"use client"
+
+import { useEffect, useState } from 'react';
+import { AuthUser } from '@supabase/supabase-js';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database } from '@/types/supabase';
+import { Flex, Box, Text, Button, VStack, Stack, Heading, useColorMode } from '@chakra-ui/react';
+import Landing from '@/components/Landing';
+import Root from '@/components/Root';
+
 
 const Home: React.FC = () => {
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const supabase = createClientComponentClient<Database>();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error) {
+        console.error('Error fetching user data:', error.message);
+        setUser(null); // Explicitly set to null in case of error
+      } else {
+        setUser(data.session?.user ?? null);
+      }
+    };
+
+    checkUser();
+  }, [supabase.auth]);
+
   return (
-<Flex
-      height="flexGrow" // Sets the height to 100% of the viewport height
-      alignItems="center" // Vertically centers the content
-      justifyContent="center" // Horizontally centers the content
-      overflow="hidden" // Prevents content from making the page scrollable
-    >
-      <Box textAlign="center" p={8}>
-        <h2 className='m-4 font-bold text-5xl'>All things music.</h2>
-        <Text className='mb-4 font-bold'>Discover, learn, and listen to music at Melodari.</Text>
-        <Image className="mb-4" src="/music.svg" alt="Music Photo" width={500} height={500} />
-        <Link href="/login" passHref>
-          <Button colorScheme="purple">Get Started</Button>
-        </Link>
-      </Box>
-    </Flex>
+    <>
+      {user ? (
+        <Root />
+      ) : (
+        <Landing />
+      )}
+    </>
   );
 };
 

@@ -75,7 +75,7 @@ const Header: React.FC = () => {
             <Flex as="header" width="full" py={2} px={8} align="center" justify="space-between">
                 <Flex align="center">
                     <Link href="/">
-                        <Image src={colorMode === 'light' ? "/black.png" : "/white.png"} alt="Melodari Logo" width={50} height={50} />
+                        <Image src="LOGO.svg" alt="Melodari Logo" width={50} height={50} />
                     </Link>
                 </Flex>
 
@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                     <Menu>
                         {user && ( // Conditionally render based on user state
                             <Menu>
-                                <MenuButton as={IconButton} aria-label="Options" icon={<BsFillGridFill />} size="lg" />
+                                <MenuButton as={IconButton} aria-label="Options" icon={<BsFillGridFill />} size="md" />
                                 <MenuList>
                                     <MenuItem onClick={() => router.push('/account')}>Account</MenuItem>
                                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
@@ -106,11 +106,10 @@ const Header: React.FC = () => {
                         aria-label="Toggle Mode"
                         onClick={toggleColorMode}
                         icon={colorMode === 'light' ? <MoonIcon /> : <StarIcon />}
-                        size="lg"
+                        size="md"
                     />
                 </Flex>
             </Flex>
-            <Divider orientation="horizontal" />
         </>
     );
 };
