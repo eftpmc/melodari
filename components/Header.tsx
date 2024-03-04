@@ -89,6 +89,7 @@ const Header: React.FC = () => {
                                 <MenuButton as={IconButton} aria-label="Options" icon={<BsFillGridFill />} size="md" />
                                 <MenuList>
                                     <MenuItem onClick={() => router.push('/account')}>Account</MenuItem>
+                                    <MenuItem onClick={() => router.push('/settings')}>Settings</MenuItem>
                                     <MenuItem onClick={signOut}>Sign Out</MenuItem>
                                 </MenuList>
                             </Menu>

@@ -7,21 +7,6 @@ import Link from 'next/link'
 
 
 export default function Root() {
-  const [authUrl, setAuthUrl] = useState('');
-
-  useEffect(() => {
-    async function fetchAuthUrl() {
-      const response = await fetch('/api/ytmusic/getURL');
-      const data = await response.json();
-      if (data.url) {
-        setAuthUrl(data.url); // Correctly extract the URL from the JSON object
-      } else {
-        console.error('Authorization URL not found.');
-      }
-    }
-
-    fetchAuthUrl();
-  }, []);
 
   return (
     <VStack spacing={8}>
@@ -40,11 +25,6 @@ export default function Root() {
             home
           </Heading>
           <Text fontSize="xl" mb={4}>dashboard?</Text>
-          <Link href={authUrl}>
-            <Button colorScheme="red">
-              Connect YouTube Music
-            </Button>
-          </Link>
         </Box>
       </Flex>
     </VStack>

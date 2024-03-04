@@ -1,20 +1,12 @@
 'use server'
 
 var { google } = require('googleapis');
+const oauth2Client = require('@/app/googleClient');
 
-const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-const REDIRECT_URI = `${process.env.URL!}/auth/googlecallback`
 const SCOPE = 'https://www.googleapis.com/auth/youtube.readonly';
 
 export async function GET() {
   try {
-    const oauth2Client = new google.auth.OAuth2(
-      GOOGLE_CLIENT_ID,
-      GOOGLE_CLIENT_SECRET,
-      REDIRECT_URI
-    );
-
     const authorizationUrl = oauth2Client.generateAuthUrl({
       access_type: 'offline',
       scope: SCOPE,
