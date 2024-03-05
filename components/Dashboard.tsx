@@ -13,37 +13,37 @@ export default function Dashboard() {
   console.log(tokens)
 
   useEffect(() => {
-    if (authenticated && tokens) {
+
     async function fetchPlaylists() {
       try {
         const apiKeyResponse = await fetch('/api/ytmusic/getAPI');
         const apiKeyData = await apiKeyResponse.json();
-        if (apiKeyData){
+        if (apiKeyData) {
           const apiKey = apiKeyData.api;
 
           const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&maxResults=20&mine=true&key=${apiKey}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${tokens?.access_token}`, // Include the token in the Authorization header
-          },
-        });
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${tokens?.access_token}`, // Include the token in the Authorization header
+            },
+          });
 
-        if (!response.ok) {
-          throw new Error('Failed to validate token');
-        }
+          if (!response.ok) {
+            throw new Error('Failed to validate token');
+          }
 
-        const data = await response.json();
-        console.log(data)
+          const data = await response.json();
+          console.log(data)
         }
       } catch (error) {
         console.error('Error:', error);
       }
     }
-
-    fetchPlaylists();
-  }
-}, [authenticated, tokens]);
+    if (authenticated && tokens) {
+      fetchPlaylists();
+    }
+  }, [authenticated, tokens]);
 
   return (
     <Flex
