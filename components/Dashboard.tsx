@@ -9,10 +9,18 @@ import { GoogleContext } from "@/contexts/GoogleContext";
 export default function Dashboard() {
   const { tokens, authenticated } = useContext(GoogleContext);
 
+  console.log(authenticated)
+  console.log(tokens)
+
   useEffect(() => {
     async function fetchPlaylists() {
       try {
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&maxResults=20&mine=true&key=${process.env.GOOGLE_API_KEY}`, {
+        const apiKeyResponse = await fetch('/api/ytmusic/getAPI');
+        const apiKeyData = await apiKeyResponse.json();
+        if (apiKeyData){
+          const apiKey = apiKeyData.api;
+
+          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&maxResults=20&mine=true&key=${apiKey}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -26,6 +34,7 @@ export default function Dashboard() {
 
         const data = await response.json();
         console.log(data)
+        }
       } catch (error) {
         console.error('Error:', error);
       }
