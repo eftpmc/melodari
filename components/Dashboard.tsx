@@ -13,6 +13,7 @@ export default function Dashboard() {
   console.log(tokens)
 
   useEffect(() => {
+    if (authenticated && tokens) {
     async function fetchPlaylists() {
       try {
         const apiKeyResponse = await fetch('/api/ytmusic/getAPI');
@@ -41,7 +42,8 @@ export default function Dashboard() {
     }
 
     fetchPlaylists();
-  }, []);
+  }
+}, [authenticated, tokens]);
 
   return (
     <Flex
