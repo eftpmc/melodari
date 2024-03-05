@@ -2,10 +2,10 @@
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/types/supabase';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Flex, Box, Text, Button, VStack, Stack, Heading, useColorMode } from '@chakra-ui/react';
 import Image from 'next/image';
-import Link from 'next/link'
+import { Loader2 } from "lucide-react";
 import { useRouter } from 'next/navigation'
 
 export default function GoogleCallback() {
@@ -32,6 +32,7 @@ export default function GoogleCallback() {
         });
 
         const token = await response.json();
+        console.log(token)
 
         // Assuming token is directly the received object you wish to use
         if (!token) {
@@ -46,12 +47,10 @@ export default function GoogleCallback() {
         }
 
         const userId = userData.user.id;
-        const access_token = token.tokens.access_token;
-        const refresh_token = token.tokens.refresh_token;
 
         let { data, error: updateError } = await supabase
           .from('profiles')
-          .update({ google_token: access_token, refresh_token: refresh_token })
+          .update({ google_tokens:  token})
           .eq('id', userId);
 
         if (updateError) throw updateError;
@@ -79,15 +78,11 @@ export default function GoogleCallback() {
       >
         <Box textAlign="center" p={8}>
           <Heading as="h2" size="2xl" mb={4} fontWeight="bold">
-            Google Connected!
+            google connection
           </Heading>
-          <Text fontSize="xl" mb={4}>thank you<br></br>your youtube music account is now connected</Text>
-          <Link href="/settings">
-            <Button colorScheme="red">
-              go back
-            </Button>
-          </Link>
+          <Text fontSize="xl">authenticating</Text>
         </Box>
+        <Loader2 className="h-4 w-4 animate-spin" size={48}/>
         <Text fontSize="md" mt={8}>supported platforms:</Text>
         <Text fontSize="sm" my={2}>youtube music</Text>
       </Flex>

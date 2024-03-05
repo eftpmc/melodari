@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Flex, Box, Text, VStack, Heading } from '@chakra-ui/react';
 import Image from 'next/image';
-import Link from 'next/link'
-
+import Dashboard from '@/components/Dashboard';
 
 export default function Root() {
 
@@ -20,12 +19,7 @@ export default function Root() {
         overflow="hidden"
         pt={8}
       >
-        <Box textAlign="center" p={8}>
-          <Heading as="h2" size="2xl" mb={4} fontWeight="bold">
-            home
-          </Heading>
-          <Text fontSize="xl" mb={4}>dashboard?</Text>
-        </Box>
+        <Dashboard></Dashboard>
       </Flex>
     </VStack>
   );

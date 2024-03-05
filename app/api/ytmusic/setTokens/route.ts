@@ -4,10 +4,8 @@ var { google } = require('googleapis');
 const oauth2Client = require('@/app/googleClient');
 
 export async function POST(req: Request) {
-  const { code } = await req.json()
+  const { tokens } = await req.json()
   try {
-    let { tokens } = await oauth2Client.getToken(code);
-    
     if (tokens) {
       oauth2Client.setCredentials(tokens)
       return new Response(JSON.stringify({ tokens }), { status: 200, headers: { 'Content-Type': 'application/json' } });
