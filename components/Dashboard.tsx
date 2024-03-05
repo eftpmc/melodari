@@ -12,7 +12,7 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchPlaylists() {
       try {
-        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&part=snippet&maxResults=20&mine=true&key=${process.env.GOOGLE_API_KEY}`, {
+        const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&maxResults=20&mine=true&key=${process.env.GOOGLE_API_KEY}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
