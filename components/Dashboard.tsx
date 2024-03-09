@@ -8,6 +8,7 @@ import { GoogleContext } from "@/contexts/GoogleContext";
 
 export default function Dashboard() {
   const { tokens, authenticated } = useContext(GoogleContext);
+  const [playlists, setPlaylists] = useState([]);
 
   console.log(authenticated)
   console.log(tokens)
@@ -16,25 +17,11 @@ export default function Dashboard() {
 
     async function fetchPlaylists() {
       try {
-        const apiKeyResponse = await fetch('/api/ytmusic/getAPI');
-        const apiKeyData = await apiKeyResponse.json();
-        if (apiKeyData) {
-          const apiKey = apiKeyData.api;
+        const playlistsResponse = await fetch('/api/ytmusic/getPlaylists');
+        const playlistsData = await playlistsResponse.json();
 
-          const response = await fetch(`https://youtube.googleapis.com/youtube/v3/playlists?part=contentDetails&maxResults=20&mine=true&key=${apiKey}`, {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${tokens?.access_token}`, // Include the token in the Authorization header
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error('Failed to validate token');
-          }
-
-          const data = await response.json();
-          console.log(data)
+        if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
+          setPlaylists(playlistsData.playlists); // Store the entire playlist objects
         }
       } catch (error) {
         console.error('Error:', error);
@@ -56,6 +43,11 @@ export default function Dashboard() {
       <VStack spacing={2} className="bg-illustration rounded-md">
         <Heading size="sm" textAlign="left" p={2} pb={0} className="w-full dark:text-white">Dashboard</Heading>
         <Text fontSize="xs" p={2} pt={0} className="dark:text-white">This is your dashboard where you manage your music.</Text>
+        {playlists.map((playlist, index) => (
+          <Box key={index} p={5} shadow="md" borderWidth="1px" className="playlist-item">
+            <Text fontSize="xs" p={2} pt={0} className="dark:text-white">{playlist.snippet.title}</Text>
+          </Box>
+        ))}
       </VStack>
     </Flex>
   );

@@ -51,17 +51,8 @@ export const GoogleProvider = ({ children }: Props) => {
         if (data && data.google_tokens && data.google_tokens.tokens) {
           const tokens = data.google_tokens.tokens;
           setTokens(tokens);
-          const response = await fetch('/api/ytmusic/setTokens', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ tokens }), // Send the code as JSON in the body of the request
-          });
 
-          const token = await response.json();
-
-          if (token) {
+          if (tokens) {
             setAuthenticated(true);
           } else {
             setAuthenticated(false);
@@ -75,6 +66,22 @@ export const GoogleProvider = ({ children }: Props) => {
 
     getTokens();
   }, []);
+
+  useEffect(() => {
+    async function setTokens() {
+      if (tokens) {
+        const response = await fetch('/api/ytmusic/setTokens', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ tokens }), // Send the code as JSON in the body of the request
+        });
+      }
+    }
+
+    setTokens();
+  }, [tokens]);
 
   return (
     <GoogleContext.Provider value={{ tokens, setTokens, authenticated, setAuthenticated }}>
