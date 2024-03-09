@@ -51,12 +51,10 @@ export const GoogleProvider = ({ children }: Props) => {
         if (data && data.google_tokens && data.google_tokens.tokens) {
           const tokens = data.google_tokens.tokens;
           setTokens(tokens);
-
-          if (tokens) {
-            setAuthenticated(true);
-          } else {
-            setAuthenticated(false);
-          }
+          setAuthenticated(true);
+        }
+        else {
+          setAuthenticated(false);
         }
 
       } catch (error) {
@@ -80,8 +78,8 @@ export const GoogleProvider = ({ children }: Props) => {
       }
     }
 
-    setTokens();
-  }, [tokens]);
+      setTokens();
+    }, [tokens]);
 
   return (
     <GoogleContext.Provider value={{ tokens, setTokens, authenticated, setAuthenticated }}>

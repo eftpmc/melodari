@@ -13,7 +13,6 @@ export async function GET() {
       maxResults: 20
     });
 
-    console.log(response)
     const playlists = response.data.items;
     if (playlists) {
       return new Response(JSON.stringify({ playlists }), { status: 200, headers: { 'Content-Type': 'application/json' } });
