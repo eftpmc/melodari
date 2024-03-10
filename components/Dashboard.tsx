@@ -13,11 +13,10 @@ interface Playlist {
 }
 
 export default function Dashboard() {
-  const { tokens, authenticated } = useContext(GoogleContext);
+  const { tokens, authenticated, setAuthenticated } = useContext(GoogleContext);
   const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
 
   console.log(authenticated)
-  console.log(tokens)
 
   useEffect(() => {
 
@@ -27,7 +26,8 @@ export default function Dashboard() {
         const playlistsData = await playlistsResponse.json();
 
         if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
-          setPlaylists(playlistsData.playlists); // Store the entire playlist objects
+          setPlaylists(playlistsData.playlists);
+          setAuthenticated(false);
         }
       } catch (error) {
         console.error('Error:', error);

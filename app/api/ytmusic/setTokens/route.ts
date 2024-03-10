@@ -5,7 +5,6 @@ const oauth2Client = require('@/app/googleClient');
 
 export async function POST(req: Request) {
   const { tokens } = await req.json()
-  console.log(tokens)
   try {
     if (tokens.access_token && tokens.refresh_token) {
       oauth2Client.setCredentials({access_token: tokens.access_token, refresh_token: tokens.refresh_token})

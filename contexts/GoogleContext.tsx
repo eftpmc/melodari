@@ -66,20 +66,24 @@ export const GoogleProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    async function setTokens() {
+    async function sendTokens() {
       if (tokens) {
-        const response = await fetch('/api/ytmusic/setTokens', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tokens }), // Send the code as JSON in the body of the request
-        });
+        try {
+          await fetch('/api/ytmusic/setTokens', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ tokens }),
+          });
+        } catch (error) {
+          console.error('Failed to set tokens:', error);
+        }
       }
     }
-
-      setTokens();
-    }, [tokens]);
+  
+    sendTokens();
+  }, [tokens]);
 
   return (
     <GoogleContext.Provider value={{ tokens, setTokens, authenticated, setAuthenticated }}>
