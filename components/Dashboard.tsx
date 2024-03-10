@@ -8,17 +8,12 @@ import { Loader2 } from "lucide-react";
 import useAuthorizedApiRequest from '@/utils/authorizeGoogle';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database, Json } from '@/types/supabase';
-
-interface Playlist {
-  snippet: {
-    title: string;
-  };
-}
+import { Playlist } from "@/types/playlist"
 
 export default function Dashboard() {
   const supabase = createClientComponentClient<Database>();
   const { tokens, authenticated, setAuthenticated } = useContext(GoogleContext);
-  const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
+  const [playlists, setPlaylists] = useState<any | null>(null);
 
   const makeRequest = useAuthorizedApiRequest();
   console.log(authenticated)
@@ -44,9 +39,9 @@ export default function Dashboard() {
         if (updateError) throw updateError;
 
         if (data?.playlist_data) {
-          const playlistData = data.playlist_data
-          setPlaylists(playlistData.playlists)
-          console.log(playlistData.playlists)
+          const playlistData = data.playlist_data.playlists
+          setPlaylists(playlistData)
+          console.log(playlistData)
         } else {
           const playlistsResponse = await makeRequest('/api/ytmusic/getPlaylists', {
             method: 'GET',
