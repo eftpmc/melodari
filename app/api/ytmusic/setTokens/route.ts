@@ -6,8 +6,8 @@ const oauth2Client = require('@/app/googleClient');
 export async function POST(req: Request) {
   const { tokens } = await req.json()
   try {
-    if (tokens.access_token && tokens.refresh_token) {
-      oauth2Client.setCredentials({access_token: tokens.access_token, refresh_token: tokens.refresh_token})
+    if (tokens) {
+      oauth2Client.setCredentials(tokens)
       return new Response(JSON.stringify({ tokens }), { status: 200, headers: { 'Content-Type': 'application/json' } });
     } else {
       return new Response(JSON.stringify({ message: 'No tokens found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });

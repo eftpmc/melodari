@@ -6,6 +6,8 @@ import { useContext } from "react";
 import { GoogleContext } from "@/contexts/GoogleContext";
 import { Loader2 } from "lucide-react";
 import useAuthorizedApiRequest from '@/utils/authorizeGoogle';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Database, Json } from '@/types/supabase';
 
 interface Playlist {
   snippet: {
@@ -14,6 +16,7 @@ interface Playlist {
 }
 
 export default function Dashboard() {
+  const supabase = createClientComponentClient<Database>();
   const { tokens, authenticated, setAuthenticated } = useContext(GoogleContext);
   const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
 
@@ -23,14 +26,44 @@ export default function Dashboard() {
   useEffect(() => {
     async function fetchPlaylists() {
       try {
-        const playlistsResponse = await makeRequest('/api/ytmusic/getPlaylists', {
-          method: 'GET',
-        });
+        const { data: userData, error: userError } = await supabase.auth.getUser();
 
-        const playlistsData = await playlistsResponse;
+        if (userError) throw userError;
+        if (!userData.user) {
+          throw new Error('No authenticated user found.');
+        }
 
-        if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
-          setPlaylists(playlistsData.playlists);
+        const userId = userData.user.id;
+
+        let { data, error: updateError } = await supabase
+          .from('profiles') // Temporarily use `any` to bypass typing issues.
+          .select("playlist_data") // Use `->>` to get JSON object as text and alias it as 'tokens'.
+          .eq('id', userId)
+          .single();
+
+        if (updateError) throw updateError;
+
+        if (data?.playlist_data) {
+          const playlistData = data.playlist_data
+          setPlaylists(playlistData.playlists)
+          console.log(playlistData.playlists)
+        } else {
+          const playlistsResponse = await makeRequest('/api/ytmusic/getPlaylists', {
+            method: 'GET',
+          });
+
+          const playlistsData = await playlistsResponse;
+
+          if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
+            setPlaylists(playlistsData.playlists);
+
+            let { data, error: updateError } = await supabase
+              .from('profiles')
+              .update({ playlist_data: playlistsData })
+              .eq('id', userId);
+
+            if (updateError) throw updateError;
+          }
         }
       } catch (error) {
         console.error('Error:', error);
@@ -57,9 +90,9 @@ export default function Dashboard() {
             <Loader2 className="h-4 w-4 animate-spin" />
           </Box>
         ) : (
-          <Grid templateColumns="repeat(3, 1fr)" gap={2} p={2}>
+          <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={2} p={2}>
             {playlists.map((playlist, index) => (
-              <Box key={index} p={1} shadow="md" borderWidth="1px" className="playlist-item">
+              <Box key={index} p={1} shadow="md" borderWidth="1px" className="playlist-item rounded-md">
                 <Text fontSize="xs" p={2} className="dark:text-white">{playlist.snippet.title}</Text>
               </Box>
             ))}

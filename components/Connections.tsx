@@ -56,7 +56,7 @@ export default function Connections() {
       {authenticated && (
         <VStack spacing={2} className="bg-illustration rounded-md">
           <HStack p={2}>
-            <SiYoutubemusic></SiYoutubemusic>
+            <SiYoutubemusic className='text-white'></SiYoutubemusic>
             <Heading size="sm" textAlign="left" className="w-full dark:text-white">Youtube Music</Heading>
           </HStack>
         </VStack>
