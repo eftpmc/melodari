@@ -1,7 +1,5 @@
 
 import { google } from "googleapis"
-import { useContext } from 'react';
-import { GoogleContext } from "@/contexts/GoogleContext";
 
 const GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;

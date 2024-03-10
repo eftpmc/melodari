@@ -29,28 +29,17 @@ export default function Connections() {
   }, []);
 
   return (
-    <Flex
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      overflow="hidden"
+    <VStack
+      spacing={4}
+      align="stretch"
+      max-w="600px"
       p={8}
     >
       <VStack spacing={2} className="bg-illustration rounded-md">
         <Heading size="sm" textAlign="left" pt={4} pl={2} className="w-full dark:text-white">Add Music</Heading>
         <Text fontSize="xs" pl={2} pr={2} className="dark:text-white">We specifically target permissions that can be viewed when connecting your account.</Text>
         <HStack textAlign="center" pb={4}>
-          {authenticated ? (
-            <Link href={authUrl}>
-              <Tooltip label='Youtube Music'>
-                <IconButton
-                  colorScheme='red'
-                  aria-label='connect ytmusic'
-                  icon={<SiYoutubemusic />}
-                />
-              </Tooltip>
-            </Link>
-          ) : (
+          {!authenticated && (
             <Link href={authUrl}>
               <Tooltip label='Youtube Music'>
                 <IconButton
@@ -64,6 +53,14 @@ export default function Connections() {
           )}
         </HStack>
       </VStack>
-    </Flex>
+      {authenticated && (
+        <VStack spacing={2} className="bg-illustration rounded-md">
+          <HStack p={2}>
+            <SiYoutubemusic></SiYoutubemusic>
+            <Heading size="sm" textAlign="left" className="w-full dark:text-white">Youtube Music</Heading>
+          </HStack>
+        </VStack>
+      )}
+    </VStack>
   );
 }

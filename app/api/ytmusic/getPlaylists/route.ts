@@ -3,10 +3,6 @@
 var { google } = require('googleapis');
 const oauth2Client = require('@/app/googleClient');
 
-google.options({
-  timeout: 2000,
-});
-
 export async function GET() {
   try {
     var service = google.youtube('v3');
