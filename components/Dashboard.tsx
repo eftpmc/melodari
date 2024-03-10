@@ -86,7 +86,7 @@ export default function Dashboard() {
           </Box>
         ) : (
           <Grid templateColumns="repeat(auto-fill, minmax(250px, 1fr))" gap={2} p={2}>
-            {playlists.map((playlist, index) => (
+            {playlists.map((playlist : Playlist, index : number) => (
               <Box key={index} p={1} shadow="md" borderWidth="1px" className="playlist-item rounded-md">
                 <Text fontSize="xs" p={2} className="dark:text-white">{playlist.snippet.title}</Text>
               </Box>
