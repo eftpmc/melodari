@@ -27,7 +27,6 @@ export default function Dashboard() {
 
         if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
           setPlaylists(playlistsData.playlists);
-          setAuthenticated(false);
         }
       } catch (error) {
         console.error('Error:', error);
