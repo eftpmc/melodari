@@ -7,7 +7,7 @@ import AuthForm from '@/components/AuthForm';
 export default function Landing() {
 
     return (
-        <VStack spacing={8} className="overflow-hidden">
+        <VStack spacing={8}>
             <Box position="absolute" left="0" top="75">
                 <Image src="/DRAGON.svg" className="invisible lg:visible lg:w-[300px] xl:w-[500px]" alt="art" width={500} height={500} />
             </Box>
