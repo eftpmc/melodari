@@ -1,9 +1,14 @@
 export interface Playlist {
     snippet: {
-      title: string;
+        title: string;
+        thumbnails: {
+            maxres: {
+                url: string
+            }
+        },
     };
-  }  
+}
 
 export interface PlaylistLabel {
-    playlists: Playlist;
+    playlists: Playlist[];
 }

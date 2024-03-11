@@ -4,19 +4,25 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database, Json } from '@/types/supabase';
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { GoogleTokens } from "@/types/googletokens"
+import { Playlist } from "@/types/playlist"
 
 interface GoogleContext {
   tokens: GoogleTokens | null;
   setTokens: (tokens: GoogleTokens | null) => void;
   authenticated: true | false;
   setAuthenticated: (authenticated: true | false) => void;
+  playlists: Playlist[] | null;
+  setPlaylists: (playlists: Playlist[] | null) => void;
 }
 
 export const GoogleContext = createContext<GoogleContext>({
   tokens: null,
   authenticated: false,
+  playlists: null,
   setTokens: () => { },
-  setAuthenticated: () => { }
+  setAuthenticated: () => { },
+  setPlaylists: () => { },
+  
 });
 
 interface Props {
@@ -27,6 +33,7 @@ export const GoogleProvider = ({ children }: Props) => {
   const supabase = createClientComponentClient<Database>();
   const [tokens, setTokens] = useState<GoogleTokens | null>(null);
   const [authenticated, setAuthenticated] = useState<true | false>(false);
+  const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
 
   useEffect(() => {
     async function getTokens() {
@@ -73,7 +80,7 @@ export const GoogleProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <GoogleContext.Provider value={{ tokens, setTokens, authenticated, setAuthenticated }}>
+    <GoogleContext.Provider value={{ tokens, setTokens, authenticated, setAuthenticated, playlists, setPlaylists }}>
       {children}
     </GoogleContext.Provider>
   );
