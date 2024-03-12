@@ -12,7 +12,11 @@ import { Database, Json } from '@/types/supabase';
 import { Playlist } from "@/types/playlist"
 import { Loader2 } from "lucide-react";
 
-const OPTIONS: EmblaOptionsType = {}
+const OPTIONS: EmblaOptionsType = {
+  loop: true,
+  align: "start",
+  inViewThreshold: 0.7,
+}
 
 export default function Dashboard() {
   const supabase = createClientComponentClient<Database>();
