@@ -32,7 +32,6 @@ const PlaylistCarousel: React.FC<PropType> = (props) => {
 
     const makeRequest = useAuthorizedApiRequest();
 
-
     const debounce = (func: Func, wait: number): Func => {
         let timeout: NodeJS.Timeout | null = null;
       
@@ -140,7 +139,7 @@ const PlaylistCarousel: React.FC<PropType> = (props) => {
     } = usePrevNextButtons(emblaApi)
 
     return (
-        <section className="embla">
+        <section className="embla p-16">
             <div className="embla__viewport" ref={emblaRef}>
                 <div className="embla__container">
                     {playlists && playlists.map((playlist: Playlist, index: number) => (
