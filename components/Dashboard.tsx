@@ -95,7 +95,7 @@ export default function Dashboard() {
       p={8}
     >
       {playlists ? (
-        <PlaylistCarousel slides={playlists} options={OPTIONS} />
+        <PlaylistCarousel options={OPTIONS} />
       ) : (
         <div>
           <Loader2 className="h-4 w-4 animate-spin" />
