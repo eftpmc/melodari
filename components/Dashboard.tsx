@@ -44,9 +44,10 @@ export default function Dashboard() {
 
         if (updateError) throw updateError;
 
-        if (data) {
+        if (data?.playlist_data) {
           const playlistsData = await data.playlist_data;
           if (playlistsData) {
+            console.log(playlistsData)
             const formattedPlaylists: Playlist[] = playlistsData.playlists.map((playlist: any) => ({
               snippet: {
                 title: playlist.snippet.title,
@@ -65,6 +66,7 @@ export default function Dashboard() {
           });
 
           const playlistsData = await playlistsResponse;
+          console.log(playlistsData)
 
           if (playlistsData.playlists && Array.isArray(playlistsData.playlists)) {
             setPlaylists(playlistsData.playlists);
