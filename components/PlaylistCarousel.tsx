@@ -22,6 +22,8 @@ type PropType = {
     options?: EmblaOptionsType
 }
 
+type Func = (...args: any[]) => void;
+
 const PlaylistCarousel: React.FC<PropType> = (props) => {
     const { options } = props
     const [emblaRef, emblaApi] = useEmblaCarousel(options)
@@ -31,14 +33,19 @@ const PlaylistCarousel: React.FC<PropType> = (props) => {
     const makeRequest = useAuthorizedApiRequest();
 
 
-    const debounce = (func, wait) => {
-        let timeout;
-        return function executedFunction(...args) {
+    const debounce = (func: Func, wait: number): Func => {
+        let timeout: NodeJS.Timeout | null = null;
+      
+        return function executedFunction(...args: any[]) {
           const later = () => {
-            clearTimeout(timeout);
+            timeout = null;
             func(...args);
           };
-          clearTimeout(timeout);
+      
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+      
           timeout = setTimeout(later, wait);
         };
       };
