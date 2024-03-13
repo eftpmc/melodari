@@ -10,6 +10,6 @@ export interface Playlist {
     };
 }
 
-export type PlaylistLabel {
+export type PlaylistLabel = {
     playlists: Playlist[];
 }
