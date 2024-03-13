@@ -3,21 +3,24 @@
 var { google } = require('googleapis');
 const oauth2Client = require('@/app/googleClient');
 
-export async function GET() {
+export async function POST(req: Request) {
+  const { playlistId, tokens } = await req.json()
+  console.log(tokens)
   try {
+    oauth2Client.setCredentials(tokens)
     var service = google.youtube('v3');
-    const response = await service.playlists.list({
+    const response = await service.playlistItems.list({
       auth: oauth2Client,
-      part: ['snippet', 'contentDetails'],
-      mine: true,
+      playlistId: playlistId,
+      part: ['snippet', 'contentDetails',],
       maxResults: 20
     });
 
-    const playlists = response.data.items;
-    if (playlists) {
-      return new Response(JSON.stringify({ playlists }), { status: 200, headers: { 'Content-Type': 'application/json' } });
+    const videos = response.data.items;
+    if (videos) {
+      return new Response(JSON.stringify({ videos }), { status: 200, headers: { 'Content-Type': 'application/json' } });
     } else {
-      return new Response(JSON.stringify({ message: 'No playlists found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+      return new Response(JSON.stringify({ message: 'No videos found' }), { status: 404, headers: { 'Content-Type': 'application/json' } });
     }
   } catch (error) {
     console.error(error);

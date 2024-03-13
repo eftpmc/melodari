@@ -4,25 +4,27 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database, Json } from '@/types/supabase';
 import { ReactNode, createContext, useEffect, useState } from "react";
 import { GoogleTokens } from "@/types/googletokens"
-import { Playlist } from "@/types/playlist"
+import { Playlist, PlaylistLabel } from "@/types/playlist"
+import googlePlaylists from '@/utils/googlePlaylists';
+import { storage } from 'googleapis/build/src/apis/storage';
 
 interface GoogleContext {
   tokens: GoogleTokens | null;
   setTokens: (tokens: GoogleTokens | null) => void;
   authenticated: true | false;
   setAuthenticated: (authenticated: true | false) => void;
-  playlists: Playlist[] | null;
-  setPlaylists: (playlists: Playlist[] | null) => void;
+  playlists: Playlist[] | undefined;
+  setPlaylists: (playlists: Playlist[] | undefined) => void;
 }
 
 export const GoogleContext = createContext<GoogleContext>({
   tokens: null,
   authenticated: false,
-  playlists: null,
+  playlists: undefined,
   setTokens: () => { },
   setAuthenticated: () => { },
   setPlaylists: () => { },
-  
+
 });
 
 interface Props {
@@ -33,7 +35,34 @@ export const GoogleProvider = ({ children }: Props) => {
   const supabase = createClientComponentClient<Database>();
   const [tokens, setTokens] = useState<GoogleTokens | null>(null);
   const [authenticated, setAuthenticated] = useState<true | false>(false);
-  const [playlists, setPlaylists] = useState<Playlist[] | null>(null);
+  const [playlists, setPlaylists] = useState<Playlist[] | undefined>(undefined);
+
+  const { getPlaylistsFromStorage, getPlaylistsFromAPI, formatAndSetPlaylists, updatePlaylists } = googlePlaylists();
+
+  useEffect(() => {
+    async function playlistCycle() {
+      const storagePlaylists: PlaylistLabel | undefined | null = await getPlaylistsFromStorage()
+
+      if (storagePlaylists) {
+        const formattedPlaylists = await formatAndSetPlaylists(storagePlaylists)
+        setPlaylists(formattedPlaylists)
+      } else {
+        const apiPlaylists = await getPlaylistsFromAPI()
+
+        if (apiPlaylists) {
+          const formattedPlaylists = await formatAndSetPlaylists(apiPlaylists)
+          setPlaylists(formattedPlaylists)
+          if (formattedPlaylists) {
+            await updatePlaylists(formattedPlaylists);
+          }
+        }
+      }
+
+      console.log(playlists)
+    }
+
+    playlistCycle();
+  }, []);
 
   useEffect(() => {
     async function getTokens() {

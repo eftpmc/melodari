@@ -1,4 +1,5 @@
 export interface Playlist {
+    id: string,
     snippet: {
         title: string;
         thumbnails: {
@@ -9,6 +10,6 @@ export interface Playlist {
     };
 }
 
-export interface PlaylistLabel {
+export type PlaylistLabel {
     playlists: Playlist[];
 }
